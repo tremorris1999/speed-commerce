@@ -1,0 +1,13 @@
+{
+  _id: ObjectId,
+  userId: ObjectId,
+  type: String,  // "mailing" or "billing"
+  fullName: String,
+  address1: String,
+  address2: String,
+  city: String,
+  county: String,
+  state: String,
+  country: String,
+  postalCode: String
+}

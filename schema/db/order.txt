@@ -1,0 +1,12 @@
+{
+  _id: ObjectId,
+  userId: ObjectId,
+  products: Product[]
+  mailingAddress: Address,
+  billingAddress: Address,
+  subtotal: Number,
+  shippingCost: Number,
+  tax: Number,
+  taxState: String,
+  total: Number
+}

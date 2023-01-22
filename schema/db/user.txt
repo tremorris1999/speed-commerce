@@ -1,0 +1,6 @@
+{
+  _id: ObjectId,
+  userName: String,
+  email: String,
+  firstName: String,
+}

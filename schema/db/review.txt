@@ -1,0 +1,7 @@
+{
+  _id: ObjectId,
+  productId: ObjectId,
+  user: String,
+  rating: Number,
+  comment: String
+}
