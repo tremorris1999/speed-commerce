@@ -8,3 +8,9 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
+    volumes:
+      - 'speed-commerce-mongo:/data/db'
+
+volumes:
+  speed-commerce-mongo:
+    external: true
