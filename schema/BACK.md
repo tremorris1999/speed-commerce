@@ -1,6 +1,6 @@
 # Back
 
-This document should serve to document the intended design of our backend architecture.
+This document should serve to document the intended design of our backend architecture. We will use [Rocket](https://rocket.rs) to accomplish this.
 
 ## Data
 
