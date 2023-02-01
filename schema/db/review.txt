@@ -1,7 +1,0 @@
-{
-  _id: ObjectId,
-  productId: ObjectId,
-  user: ObjectId,
-  rating: Number,
-  comment: String
-}
