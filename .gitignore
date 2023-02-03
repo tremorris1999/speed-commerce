@@ -1,1 +1,5 @@
 .env
+test.sh
+dev.sh
+prod.sh
+speed-commerce-api/target/**

@@ -1,0 +1,20 @@
+[package]
+name = "speed-commerce-api"
+version = "0.1.0"
+edition = "2021"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bson = "2.5.0"
+mongodb = "2.1.0"
+tokio = "1.24.2"
+async_once = "0.2.6"
+lazy_static = "1.4.0"
+serde = "1.0.152"
+futures = "0.3.25"
+
+[dependencies.rocket]
+version = "0.5.0-rc.2"
+features = ["json"]
