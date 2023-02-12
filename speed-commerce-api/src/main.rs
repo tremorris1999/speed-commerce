@@ -1,23 +1,22 @@
+use controllers::{get_routes, get_catchers};
 use rocket::fairing::{ Fairing, Info, Kind };
 use rocket::http::Header;
 use rocket::{ Request, Response };
 
-
-mod data;
-mod models;
+mod controllers;
+pub mod data;
+pub mod business;
+pub mod models;
 
 #[macro_use]
 extern crate rocket;
 
 #[launch]
 fn rocket() -> _ {
-  let mut routes = [].to_vec();
-  // TODO: add routes from future controllers module
-  rocket::build().attach(CORS).mount("/", routes)
+  rocket::build().register("/", get_catchers()).attach(CORS).mount("/", get_routes())
 }
 
 pub struct CORS;
-
 #[rocket::async_trait]
 impl Fairing for CORS {
   fn info(&self) -> Info {

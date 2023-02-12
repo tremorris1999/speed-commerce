@@ -19,7 +19,7 @@ let items = coll.find(None, None).await
   .collect::<Vec<MyItem>>();
 
 // Do this ✅
-let items = products.find(doc! { "count": { "$lt": 10 } }, None).await
+let items = coll.find(doc! { "count": { "$lt": 10 } }, None).await
   .try_collect::<Vec<MyItem>>().await;
 ```
 
