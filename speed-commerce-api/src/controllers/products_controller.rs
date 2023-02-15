@@ -1,6 +1,7 @@
 use bson::oid::ObjectId;
 use rocket::{ Route, serde::json::Json, http::Status };
 use crate::{ business::products_business as business, models::dao::product::Product };
+use super::validate_request;
 
 #[get("/products")]
 async fn get_products() -> Json<Vec<Product>> {
@@ -8,15 +9,18 @@ async fn get_products() -> Json<Vec<Product>> {
 }
 
 #[get("/products/<oid>")]
-async fn get_product(oid: String) -> Result<Json<Option<Product>>, (Status, &'static str)> {
-  let id = match ObjectId::parse_str(oid) {
-    Err(_) => None,
-    Ok(value) => Some(value),
-  };
+async fn get_product(oid: String) -> Result<Json<Option<Product>>, (Status, String)> {
+  let mut validation_errors: Vec<&'static str> = [].to_vec();
+  let id = ObjectId::parse_str(oid);
+  if id.is_err() {
+    validation_errors.push("Unable to parse id.");
+  }
 
-  return match id {
-    None => Err((Status::BadRequest, "Unable to parse id.")),
-    Some(value) => Ok(Json(business::get_product(value).await)),
+  return match validate_request(|| async {
+    return business::get_product(id.clone().unwrap()).await;
+  }, validation_errors).await {
+    Err(value) => Err(value),
+    Ok(value) => Ok(Json(value))
   };
 }
 
