@@ -4,8 +4,15 @@ use crate::{ business::products_business as business, models::dao::product::Prod
 use super::validate_request;
 
 #[get("/products")]
-async fn get_products() -> Json<Vec<Product>> {
-  return Json(business::get_products().await);
+async fn get_products() -> Result<Json<Vec<Product>>, (Status, String)> {
+  return match
+    validate_request(|| async {
+      return business::get_products().await;
+    }, [].to_vec()).await
+  {
+    Err(value) => Err(value),
+    Ok(value) => Ok(Json(value)),
+  };
 }
 
 #[get("/products/<oid>")]
@@ -16,50 +23,61 @@ async fn get_product(oid: String) -> Result<Json<Option<Product>>, (Status, Stri
     validation_errors.push("Unable to parse id.");
   }
 
-  return match validate_request(|| async {
-    return business::get_product(id.clone().unwrap()).await;
-  }, validation_errors).await {
+  return match
+    validate_request(|| async {
+      return business::get_product(id.clone().unwrap()).await;
+    }, validation_errors).await
+  {
     Err(value) => Err(value),
-    Ok(value) => Ok(Json(value))
+    Ok(value) => Ok(Json(value)),
   };
 }
 
 #[post("/products", data = "<product>")]
-async fn post_product(product: Json<Product>) -> Json<ObjectId> {
+async fn post_product(product: Json<Product>) -> Result<Json<ObjectId>, (Status, String)> {
   let inner = product.into_inner();
-  return Json(business::insert_product(inner).await);
+  return match
+    validate_request(|| async { business::insert_product(inner.clone()).await }, [].to_vec()).await
+  {
+    Err(value) => Err(value),
+    Ok(value) => Ok(Json(value)),
+  };
 }
 
 #[put("/products/<oid>", data = "<product>")]
-async fn put_product(oid: String, product: Json<Product>) -> Result<(), (Status, &'static str)> {
-  let id = match ObjectId::parse_str(oid) {
-    Err(_) => None,
-    Ok(value) => Some(value),
-  };
+async fn put_product(oid: String, product: Json<Product>) -> Result<(), (Status, String)> {
+  let id = ObjectId::parse_str(oid);
+  let mut validation_errors: Vec<&'static str> = [].to_vec();
+  if id.is_err() {
+    validation_errors.push("Unable to parse id.");
+  }
 
-  return match id {
-    None => Err((Status::BadRequest, "Unable to parse id.")),
-    Some(_value) => {
-      let inner = product.into_inner();
-      business::update_product(inner).await;
-      return Ok(());
-    }
+  let inner = product.into_inner();
+  return match
+    validate_request(|| async {
+      return business::update_product(inner.clone()).await;
+    }, validation_errors).await
+  {
+    Err(value) => Err(value),
+    Ok(_) => Ok(()),
   };
 }
 
 #[delete("/products/<oid>")]
-async fn delete_product(oid: String) -> Result<(), (Status, &'static str)> {
-  let id = match ObjectId::parse_str(oid) {
-    Err(_) => None,
-    Ok(value) => Some(value),
-  };
+async fn delete_product(oid: String) -> Result<(), (Status, String)> {
+  let id = ObjectId::parse_str(oid);
+  let mut validation_errors: Vec<&'static str> = [].to_vec();
+  if id.is_err() {
+    validation_errors.push("Unable to parse id.");
+  }
 
-  return match id {
-    None => Err((Status::BadRequest, "Unable to parse id.")),
-    Some(value) => {
-      business::delete_product(value).await;
-      return Ok(());
-    }
+  return match
+    validate_request(|| async {
+      return business::delete_product(id.clone().unwrap()).await;
+    }, validation_errors).await
+  {
+    Err(value) => Err(value),
+    Ok(_) => Ok(()),
   };
 }
 

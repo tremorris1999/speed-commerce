@@ -18,12 +18,12 @@ pub async fn get_products() -> Result<Vec<Product>, Error> {
   return Ok(get_products_with_filter(None).await?);
 }
 
-pub async fn get_product(oid: ObjectId) -> Option<Product> {
+pub async fn get_product(oid: ObjectId) -> Result<Option<Product>, Error> {
   let handle = get_handle().await;
   let result = handle.find_one(doc! { "_id": oid }, None).await;
   return match result {
-    Err(_) => None,
-    Ok(value) => value,
+    Err(value) => Err(value),
+    Ok(value) => Ok(value),
   };
 }
 
@@ -36,7 +36,7 @@ pub async fn insert_product(product: Product) -> Result<ObjectId, Error> {
   };
 }
 
-pub async fn update_product(product: Product) {
+pub async fn update_product(product: Product) -> Result<(), Error> {
   let update_doc =
     doc! {
     "$set": {
@@ -51,12 +51,18 @@ pub async fn update_product(product: Product) {
   };
 
   let handle = get_handle().await;
-  _ = handle.update_one(doc! { "_id": product.id }, update_doc, None).await;
+  return match handle.update_one(doc! { "_id": product.id }, update_doc, None).await {
+    Err(value) => Err(value),
+    Ok(_) => Ok(()),
+  };
 }
 
-pub async fn delete_product(oid: ObjectId) {
+pub async fn delete_product(oid: ObjectId) -> Result<(), Error> {
   let handle = get_handle().await;
-  _ = handle.delete_one(doc! { "_id": oid }, None).await;
+  return match handle.delete_one(doc! { "_id": oid }, None).await {
+    Err(value) => Err(value),
+    Ok(_) => Ok(()),
+  };
 }
 
 #[cfg(test)]
@@ -72,7 +78,9 @@ mod test {
   #[async_test]
   async fn test_get_products_with_filter() {
     let filter = doc! { "name": "Test Item 2" };
-    let products = get_products_with_filter(Some(filter)).await.expect("Unable to get products with filter.");
+    let products = get_products_with_filter(Some(filter)).await.expect(
+      "Unable to get products with filter."
+    );
     assert_eq!(products.len(), 1);
   }
 
@@ -85,7 +93,9 @@ mod test {
   #[async_test]
   async fn test_get_product() {
     let products = get_products().await.expect("Unable to get products.");
-    let product = get_product(products[0].id.expect("No ID available")).await;
+    let product = get_product(products[0].id.expect("No ID available")).await.expect(
+      "Unable to get product."
+    );
     assert_eq!(product.is_some(), true);
   }
 
@@ -109,10 +119,12 @@ mod test {
     let products = get_products().await.expect("Unable to get products.");
     let mut product = products[0].clone();
     product.name = Some("Test Item 2".to_string());
-    update_product(product).await;
-    let product = get_product(products[0].id.expect("No ID available")).await;
+    _ = update_product(product).await.expect("Unable to update product.");
+    let product = get_product(products[0].id.expect("No ID available")).await.expect(
+      "Unable to get product."
+    );
     assert_eq!(product.is_some(), true);
-    assert_eq!(product.unwrap().name, Some("Test Item 2".to_string()));
+    assert_eq!(product.expect("Unable to unwrap product.").name, Some("Test Item 2".to_string()));
   }
 
   #[async_test]
@@ -127,9 +139,8 @@ mod test {
       tags: Some(vec!["test".to_string(), "item".to_string()]),
     };
     let oid = insert_product(product).await.expect("Unable to insert product.");
-    delete_product(oid).await;
-    let product = get_product(oid).await;
+    _ = delete_product(oid).await.expect("Unable to delete product.");
+    let product = get_product(oid).await.expect("Unable to get product.");
     assert_eq!(product.is_none(), true);
   }
-  
 }

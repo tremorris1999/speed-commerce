@@ -12,7 +12,9 @@ fn bad_request(request: &Request) -> String {
 fn not_found() {}
 
 #[catch(500)]
-fn internal_error() {}
+fn internal_error(request: &Request) -> String {
+  return request.to_string();
+}
 
 pub fn get_routes() -> Vec<Route> {
   let mut routes = [].to_vec();
@@ -29,7 +31,7 @@ pub async fn validate_request<F, Fut, R>(
   validation_errors: Vec<&'static str>
 )
   -> Result<R, (Status, String)>
-  where F: Fn() -> Fut, Fut: Future<Output = R>
+  where F: Fn() -> Fut, Fut: Future<Output = Result<R, (Status, String)>>
 {
   if validation_errors.len() > 0 {
     let mut error_message = "".to_string();
@@ -38,9 +40,11 @@ pub async fn validate_request<F, Fut, R>(
       error_message.push_str("\n");
     }
     error_message.pop();
-    return Err((Status::BadRequest, error_message));
-  }
-  else {
-    return Ok(func().await);
+    return Err((Status::BadRequest, error_message)); // 400 if request is invalid.
+  } else {
+    return match func().await {
+      Err(value) => Err(value), // 500 if function fails.
+      Ok(value) => Ok(value),
+    };
   }
 }
