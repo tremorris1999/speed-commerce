@@ -1,6 +1,6 @@
 use async_once::AsyncOnce;
 use lazy_static::lazy_static;
-use mongodb::{ Database, Client, options::{ClientOptions} };
+use mongodb::{ Database, Client, options::{ ClientOptions } };
 use std::env;
 
 lazy_static! {
@@ -30,3 +30,4 @@ pub async fn get_db_handle() -> Database {
 }
 
 pub mod products_db;
+pub mod reviews_db;
