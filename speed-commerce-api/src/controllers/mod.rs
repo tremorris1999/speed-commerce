@@ -1,8 +1,6 @@
 use futures::Future;
 use rocket::{ Route, Request, Catcher, http::Status };
 
-mod products_controller;
-
 #[catch(400)]
 fn bad_request(request: &Request) -> String {
   return request.to_string();
@@ -19,6 +17,7 @@ fn internal_error(request: &Request) -> String {
 pub fn get_routes() -> Vec<Route> {
   let mut routes = [].to_vec();
   routes.append(&mut products_controller::get_routes());
+  routes.append(&mut reviews_controller::get_routes());
   return routes;
 }
 
@@ -48,3 +47,6 @@ pub async fn validate_request<F, Fut, R>(
     };
   }
 }
+
+mod products_controller;
+mod reviews_controller;
