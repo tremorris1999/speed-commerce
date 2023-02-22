@@ -5,37 +5,12 @@ use crate::models::dao::user::User;
 use crate::data::users_db as db;
 use crate::models::dto::update_user::UpdateUser;
 
-pub async fn get_user(
-  id: Option<&ObjectId>,
-  user_name: Option<&str>,
-  email: Option<&str>
-) -> Result<Option<User>, (Status, String)> {
-  let mut user: Option<User> = None;
-  if id.is_some() {
-    let result = db::get_user_by_id(id.unwrap()).await;
-    user = match result {
-      Ok(value) => value,
-      Err(_) => None,
-    };
-  }
-
-  if user_name.is_some() && user.is_none() {
-    let result = db::get_user_by_user_name(user_name.unwrap()).await;
-    user = match result {
-      Ok(value) => value,
-      Err(_) => None,
-    };
-  }
-
-  if email.is_some() && user.is_none() {
-    let result = db::get_user_by_email(email.unwrap()).await;
-    user = match result {
-      Ok(value) => value,
-      Err(_) => None,
-    };
-  }
-
-  return Ok(user);
+pub async fn get_user(user_name: String) -> Result<Option<User>, (Status, String)> {
+  let result = db::get_user(&user_name).await;
+  return match result {
+    Ok(value) => Ok(value),
+    Err(_) => Err((Status::InternalServerError, "Unable to get user!".to_string())),
+  };
 }
 
 pub async fn update_user(id: ObjectId, user: UpdateUser) -> Result<(), (Status, String)> {

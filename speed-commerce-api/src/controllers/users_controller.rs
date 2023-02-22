@@ -8,30 +8,11 @@ use crate::models::dto::update_user::UpdateUser;
 
 use super::validate_request;
 
-#[get("/users/<id>")]
-async fn get_user_by_id(id: String) -> Result<Json<User>, (Status, String)> {
-  let mut validation_errors: Vec<&'static str> = [].to_vec();
-
-  let oid = ObjectId::parse_str(id);
-  if oid.is_err() {
-    validation_errors.push("Unable to parse id.");
-  }
-
-  return match
-    validate_request(|| async {
-      return business::get_user(Some(&oid.clone().unwrap()), None, None).await;
-    }, validation_errors).await
-  {
-    Err(value) => Err(value),
-    Ok(value) => Ok(Json(value.unwrap())),
-  };
-}
-
 #[get("/users/<user_name>")]
 async fn get_user_by_user_name(user_name: String) -> Result<Json<User>, (Status, String)> {
   return match
     validate_request(|| async {
-      return business::get_user(None, Some(user_name.as_str()), None).await;
+      return business::get_user(user_name.clone()).await;
     }, [].to_vec()).await
   {
     Err(value) => Err(value),
@@ -90,5 +71,5 @@ async fn post_user(user: Json<User>) -> Result<Json<ObjectId>, (Status, String)>
 }
 
 pub fn get_routes() -> Vec<Route> {
-  routes![get_user_by_id, get_user_by_user_name, update_user, delete_user, post_user]
+  routes![get_user_by_user_name, update_user, delete_user, post_user]
 }

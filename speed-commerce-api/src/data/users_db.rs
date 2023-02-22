@@ -8,19 +8,7 @@ async fn get_handle() -> Collection<User> {
   return get_db_handle().await.collection::<User>("users");
 }
 
-pub async fn get_user_by_id(id: &ObjectId) -> Result<Option<User>, Error> {
-  let handle = get_handle().await;
-  let result = handle.find_one(doc! { "_id": id }, None).await?;
-  return Ok(result);
-}
-
-pub async fn get_user_by_email(email: &str) -> Result<Option<User>, Error> {
-  let handle = get_handle().await;
-  let result = handle.find_one(doc! { "email": email }, None).await?;
-  return Ok(result);
-}
-
-pub async fn get_user_by_user_name(user_name: &str) -> Result<Option<User>, Error> {
+pub async fn get_user(user_name: &str) -> Result<Option<User>, Error> {
   let handle = get_handle().await;
   let result = handle.find_one(doc! { "userName": user_name }, None).await?;
   return Ok(result);
@@ -64,25 +52,8 @@ mod tests {
   use crate::models::dao::user::User;
 
   #[async_test]
-  async fn test_get_user_by_id() {
-    let id = ObjectId::parse_str("5f9f1b5b9c9d1b0b8c1c1c1c").expect("Unable to parse id");
-    let result = get_user_by_id(&id).await;
-    assert!(result.is_ok());
-    let user = result.unwrap();
-    assert!(user.is_some());
-  }
-
-  #[async_test]
-  async fn test_get_user_by_email() {
-    let result = get_user_by_email("test@test.com").await;
-    assert!(result.is_ok());
-    let user = result.unwrap();
-    assert!(user.is_some());
-  }
-
-  #[async_test]
-  async fn test_get_user_by_user_name() {
-    let result = get_user_by_user_name("test").await;
+  async fn test_get_user() {
+    let result = get_user("test").await;
     assert!(result.is_ok());
     let user = result.unwrap();
     assert!(user.is_some());
