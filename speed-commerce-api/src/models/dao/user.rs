@@ -2,12 +2,12 @@ use bson::oid::ObjectId;
 use serde::{Serialize, Deserialize};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
-pub struct Review {
+pub struct User {
   #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
   pub id: Option<ObjectId>,
-  #[serde(rename = "productId")]
-  pub product_id: Option<ObjectId>,
-  pub user: Option<ObjectId>,
-  pub rating: Option<f32>,
-  pub comment: Option<String>
+  #[serde(rename = "userName")]
+  pub user_name: Option<String>,
+  pub email: Option<String>,
+  #[serde(rename = "firstName")]
+  pub first_name: Option<String>
 }

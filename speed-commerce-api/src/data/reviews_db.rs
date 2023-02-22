@@ -36,7 +36,8 @@ pub async fn insert_review(review: &Review) -> Result<ObjectId, Error> {
 
 pub async fn update_review(review: &Review) -> Result<(), Error> {
   let filter = doc! { "_id": review.id };
-  let update_doc = doc! {
+  let update_doc =
+    doc! {
     "$set": {
       "product_id": review.product_id,
       "user": review.user,
@@ -155,11 +156,8 @@ mod tests {
   async fn test_delete_review_image() {
     let review_id = ObjectId::new();
     let image_id = Uuid::new();
-
-    let insert = insert_review_image(&ObjectId::new(), &Uuid::new()).await;
-    
-
-    let result = delete_review_image(&ObjectId::new(), &Uuid::new()).await;
+    let _insert = insert_review_image(&review_id, &image_id).await;
+    let result = delete_review_image(&review_id, &image_id).await;
     assert_eq!(result.is_err(), false);
   }
 }

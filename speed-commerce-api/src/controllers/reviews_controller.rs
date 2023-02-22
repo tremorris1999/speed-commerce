@@ -4,7 +4,7 @@ use crate::{ business::reviews_business as business, models::dao::review::Review
 use super::validate_request;
 
 #[get("/reviews/product/<oid>")]
-pub async fn get_reviews(oid: String) -> Result<Json<Vec<Review>>, (Status, String)> {
+async fn get_reviews(oid: String) -> Result<Json<Vec<Review>>, (Status, String)> {
   let mut validation_errors: Vec<&'static str> = [].to_vec();
   let id = ObjectId::parse_str(oid);
   if id.is_err() {
@@ -22,7 +22,7 @@ pub async fn get_reviews(oid: String) -> Result<Json<Vec<Review>>, (Status, Stri
 }
 
 #[get("/reviews/<oid>")]
-pub async fn get_review(oid: String) -> Result<Json<Option<Review>>, (Status, String)> {
+async fn get_review(oid: String) -> Result<Json<Option<Review>>, (Status, String)> {
   let mut validation_errors: Vec<&'static str> = [].to_vec();
   let id = ObjectId::parse_str(oid);
   if id.is_err() {
@@ -40,7 +40,7 @@ pub async fn get_review(oid: String) -> Result<Json<Option<Review>>, (Status, St
 }
 
 #[post("/reviews", data = "<review>")]
-pub async fn post_review(review: Json<Review>) -> Result<Json<ObjectId>, (Status, String)> {
+async fn post_review(review: Json<Review>) -> Result<Json<ObjectId>, (Status, String)> {
   let inner = review.into_inner();
   return match
     validate_request(|| async { business::insert_review(&inner.clone()).await }, [].to_vec()).await
@@ -51,7 +51,7 @@ pub async fn post_review(review: Json<Review>) -> Result<Json<ObjectId>, (Status
 }
 
 #[put("/reviews/<oid>", data = "<review>")]
-pub async fn put_review(oid: String, review: Json<Review>) -> Result<(), (Status, String)> {
+async fn put_review(oid: String, review: Json<Review>) -> Result<(), (Status, String)> {
   let id = ObjectId::parse_str(oid);
   let mut validation_errors: Vec<&'static str> = [].to_vec();
   if id.is_err() {
@@ -70,7 +70,7 @@ pub async fn put_review(oid: String, review: Json<Review>) -> Result<(), (Status
 }
 
 #[delete("/reviews/<oid>")]
-pub async fn delete_review(oid: String) -> Result<(), (Status, String)> {
+async fn delete_review(oid: String) -> Result<(), (Status, String)> {
   let id = ObjectId::parse_str(oid);
   let mut validation_errors: Vec<&'static str> = [].to_vec();
   if id.is_err() {
@@ -88,7 +88,7 @@ pub async fn delete_review(oid: String) -> Result<(), (Status, String)> {
 }
 
 #[post("/reviews/<oid>/image", data = "<image>")]
-pub async fn post_review_image(oid: String, image: Vec<u8>) -> Result<(), (Status, String)> {
+async fn post_review_image(oid: String, image: Vec<u8>) -> Result<(), (Status, String)> {
   let id = ObjectId::parse_str(oid);
   let mut validation_errors: Vec<&'static str> = [].to_vec();
   if id.is_err() {
@@ -106,7 +106,7 @@ pub async fn post_review_image(oid: String, image: Vec<u8>) -> Result<(), (Statu
 }
 
 #[delete("/reviews/<oid>/image/<image_id>")]
-pub async fn delete_review_image(oid: String, image_id: String) -> Result<(), (Status, String)> {
+async fn delete_review_image(oid: String, image_id: String) -> Result<(), (Status, String)> {
   let id = ObjectId::parse_str(oid);
   let image_id = Uuid::parse_str(image_id);
   let mut validation_errors: Vec<&'static str> = [].to_vec();

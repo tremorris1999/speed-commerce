@@ -34,3 +34,4 @@ fn get_file_base() -> String {
 
 pub mod products_business;
 pub mod reviews_business;
+pub mod users_business;

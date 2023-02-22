@@ -18,6 +18,7 @@ pub fn get_routes() -> Vec<Route> {
   let mut routes = [].to_vec();
   routes.append(&mut products_controller::get_routes());
   routes.append(&mut reviews_controller::get_routes());
+  routes.append(&mut users_controller::get_routes());
   return routes;
 }
 
@@ -50,3 +51,4 @@ pub async fn validate_request<F, Fut, R>(
 
 mod products_controller;
 mod reviews_controller;
+mod users_controller;
