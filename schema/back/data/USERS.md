@@ -1,7 +1,7 @@
 # Users
 ## Functionality
 The users module needs to implement the following behaviors:
-- [ ] Retrieve a user given their ObjectId, Username, or Email.
-- [ ] Update a user's email given their ObjectId or Username.
-- [ ] Delete a user given their ObjectId.
-- [ ] Insert a new user.
+- [x] Retrieve a user given their ObjectId, Username, or Email (email lookup only for internal use).
+- [x] ~~Update a user's email given their ObjectId or Username.~~ Revised: Update any (non-id) user data given their ObjectId.
+- [x] Delete a user given their ObjectId.
+- [x] Insert a new user.
