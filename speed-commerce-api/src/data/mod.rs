@@ -32,3 +32,4 @@ pub async fn get_db_handle() -> Database {
 pub mod products_db;
 pub mod reviews_db;
 pub mod users_db;
+pub mod addresses_db;

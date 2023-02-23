@@ -54,7 +54,7 @@ Addresses are tied to users, but given their one-to-many relationship, I've chos
 {
   _id: ObjectId,
   userId: ObjectId,
-  type: String,  // "mailing" or "billing"
+  addressType: String,  // "mailing" or "billing"
   fullName: String,
   address1: String,
   address2: String,
