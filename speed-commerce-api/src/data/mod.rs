@@ -33,3 +33,4 @@ pub mod products_db;
 pub mod reviews_db;
 pub mod users_db;
 pub mod addresses_db;
+pub mod orders_db;

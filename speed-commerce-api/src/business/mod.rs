@@ -23,8 +23,8 @@ fn get_file_base() -> String {
   let base = env::var("FILE_BASE").expect("FILE_BASE is undefined!");
   let test_mode = env::var("TEST_MODE");
   let mode = match test_mode {
-    Ok(_) => "/test",
-    Err(_) => "/prod",
+    Ok(_) => "/test/images",
+    Err(_) => "/images",
   };
 
   let mut path = base;
@@ -36,3 +36,4 @@ pub mod products_business;
 pub mod reviews_business;
 pub mod users_business;
 pub mod addresses_business;
+pub mod orders_business;

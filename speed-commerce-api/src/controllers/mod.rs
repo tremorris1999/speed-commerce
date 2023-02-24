@@ -20,6 +20,7 @@ pub fn get_routes() -> Vec<Route> {
   routes.append(&mut reviews_controller::get_routes());
   routes.append(&mut users_controller::get_routes());
   routes.append(&mut addresses_controller::get_routes());
+  routes.append(&mut orders_controller::get_routes());
   return routes;
 }
 
@@ -54,3 +55,4 @@ mod products_controller;
 mod reviews_controller;
 mod users_controller;
 mod addresses_controller;
+mod orders_controller;
