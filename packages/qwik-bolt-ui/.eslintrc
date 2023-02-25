@@ -1,0 +1,6 @@
+{
+  "extends": ["../../.eslintrc", "plugin:qwik/recommended"],
+  "parserOptions": {
+    "project": "packages/qwik-bolt-ui/tsconfig.json"
+  }
+}
