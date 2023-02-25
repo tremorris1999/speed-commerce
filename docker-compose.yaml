@@ -11,6 +11,14 @@ services:
     volumes:
       - 'speed-commerce-mongo:/data/db'
 
+  api:
+    image: api
+    restart: always
+    ports:
+      - 44388:44388
+    volumes:
+      - '/data/speed-commerce/api:/data'
+
 volumes:
   speed-commerce-mongo:
     external: true
