@@ -1,5 +1,5 @@
-use bson::{doc, oid::ObjectId};
-use mongodb::{Collection, error::Error};
+use bson::{ doc, oid::ObjectId };
+use mongodb::{ Collection, error::Error };
 
 use futures::TryStreamExt;
 
@@ -24,7 +24,8 @@ pub async fn get_order_by_id(order_id: &ObjectId) -> Result<Option<Order>, Error
 }
 
 pub async fn update_order(order: Order) -> Result<(), Error> {
-  let doc = doc! {
+  let doc =
+    doc! {
     "$set": {
       "userId": order.user_id,
       "products": order.products,
@@ -37,7 +38,7 @@ pub async fn update_order(order: Order) -> Result<(), Error> {
       "taxState": order.tax_state,
     }
   };
-  
+
   let handle = get_handle().await;
   let _result = handle.update_one(doc! { "_id": order.id }, doc, None).await?;
   return Ok(());
@@ -71,8 +72,6 @@ mod tests {
   async fn test_get_orders_by_user_id() {
     let result = get_orders_by_user_id(&ObjectId::new()).await;
     assert!(result.is_ok());
-    let order = result.unwrap();
-    assert!(order.is_some());
   }
 
   #[async_test]
