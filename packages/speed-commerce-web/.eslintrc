@@ -1,6 +1,7 @@
 {
   "extends": ["../../.eslintrc", "plugin:qwik/recommended"],
+  "root": false,
   "parserOptions": {
-    "project": "packages/speed-commerce-web/tsconfig.json"
+    "project": "tsconfig.json"
   }
 }
