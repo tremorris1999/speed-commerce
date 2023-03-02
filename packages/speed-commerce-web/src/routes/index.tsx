@@ -6,8 +6,26 @@ export default component$(() => {
   return (
     <>
       <h1>Welcome to Qwik</h1>
-      <Button text="Test Button" variant="primary" theme="dark" />
-      <Button variant="primary" theme="dark" />
+      <div style={'background-color: #001f5f;'}>
+        <Button variant="primary" theme="dark" size="xsmall">
+          Goodbye Cruel World
+          <span q:slot="append"> 👋</span>
+        </Button>
+      </div>
+      <Button variant="secondary" theme="light" size="small">
+        <span q:slot="prepend">👋 </span>
+        Hello World
+      </Button>
+      <div style={'background-color: #001f5f;'}>
+        <Button variant="primary" theme="dark" size="medium">
+          Goodbye Cruel World
+          <span q:slot="append"> 👋</span>
+        </Button>
+      </div>
+      <Button variant="secondary" theme="light" size="large">
+        <span q:slot="prepend">👋 </span>
+        Hello World
+      </Button>
     </>
   )
 })
