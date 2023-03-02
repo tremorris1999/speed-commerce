@@ -1,0 +1,33 @@
+// Base
+$spacing-x: 1.55;
+$spacing-y: 1.35;
+
+// Multipliers
+$spacing-multiplier-xxsmall: 0.125;
+$spacing-multiplier-xsmall: 0.25;
+$spacing-multiplier-small: 0.5;
+$spacing-multiplier-medium: 1;
+$spacing-multiplier-large: 2;
+$spacing-multiplier-xlarge: 4;
+$spacing-multiplier-xxlarge: 8;
+$spacing-multiplier-xxxlarge: 16;
+
+// X Calculations
+$spacing-x-xxsmall: $spacing-x * $spacing-multiplier-xxsmall * 1rem;
+$spacing-x-xsmall: $spacing-x * $spacing-multiplier-xsmall * 1rem;
+$spacing-x-small: $spacing-x * $spacing-multiplier-small * 1rem;
+$spacing-x-medium: $spacing-x * $spacing-multiplier-medium * 1rem;
+$spacing-x-large: $spacing-x * $spacing-multiplier-large * 1rem;
+$spacing-x-xlarge: $spacing-x * $spacing-multiplier-xlarge * 1rem;
+$spacing-x-xxlarge: $spacing-x * $spacing-multiplier-xxlarge * 1rem;
+$spacing-x-xxxlarge: $spacing-x * $spacing-multiplier-xxxlarge * 1rem;
+
+// Y Calculations
+$spacing-y-xxsmall: $spacing-y * $spacing-multiplier-xxsmall * 1rem;
+$spacing-y-xsmall: $spacing-y * $spacing-multiplier-xsmall * 1rem;
+$spacing-y-small: $spacing-y * $spacing-multiplier-small * 1rem;
+$spacing-y-medium: $spacing-y * $spacing-multiplier-medium * 1rem;
+$spacing-y-large: $spacing-y * $spacing-multiplier-large * 1rem;
+$spacing-y-xlarge: $spacing-y * $spacing-multiplier-xlarge * 1rem;
+$spacing-y-xxlarge: $spacing-y * $spacing-multiplier-xxlarge * 1rem;
+$spacing-y-xxxlarge: $spacing-y * $spacing-multiplier-xxxlarge * 1rem;
