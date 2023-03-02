@@ -13,7 +13,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "incremental": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@speed-commerce/ui": ["packages/bolt-ui/src/index.ts"],
+      "@speed-commerce/web": ["packages/sc-web/src/index.ts"]
+    }
   },
   "include": ["packages/**/*"]
 }
