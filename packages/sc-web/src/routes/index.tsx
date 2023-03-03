@@ -1,11 +1,11 @@
 import { component$ } from '@builder.io/qwik'
 import type { DocumentHead } from '@builder.io/qwik-city'
-import { Button } from 'qwik-bolt-ui'
+import { Button } from '@sc/bolt-ui'
 
 export default component$(() => {
   return (
     <>
-      <h1>Welcome to Qwik</h1>
+      <h1 style={'color: black;'}>Welcome to Qwik</h1>
       <div style={'background-color: #001f5f;'}>
         <Button variant="primary" theme="dark" size="xsmall">
           Goodbye Cruel World
