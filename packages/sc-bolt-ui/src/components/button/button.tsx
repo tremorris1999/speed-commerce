@@ -41,7 +41,7 @@ export const Button = component$((props: ButtonProps) => {
         onClick$={props.onClick}
       >
         <Slot name="prepend" />
-        {mainContent(props)}
+        <div id="main-content">{mainContent(props)}</div>
         <Slot name="append" />
       </button>
     </>
